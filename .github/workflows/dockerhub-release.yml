@@ -1,4 +1,4 @@
-name: Build & Push Docker images (latest + semver)
+name: Build & Push Docker image (latest + semver)
 
 on:
   push:
@@ -141,27 +141,6 @@ jobs:
       VERSION: ${{ needs.version.outputs.version }}
 
     steps:
-      - name: Debug secrets presence (no values)
-        shell: bash
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-          if [[ -n "${DOCKERHUB_USERNAME:-}" ]]; then
-            echo "DOCKERHUB_USERNAME: present"
-          else
-            echo "DOCKERHUB_USERNAME: MISSING"
-            exit 1
-          fi
-
-          if [[ -n "${DOCKERHUB_TOKEN:-}" ]]; then
-            echo "DOCKERHUB_TOKEN: present"
-          else
-            echo "DOCKERHUB_TOKEN: MISSING"
-            exit 1
-          fi
-
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -218,7 +197,6 @@ jobs:
         run: |
           set -euo pipefail
 
-          # На всякий случай убедимся, что тега ещё нет (в т.ч. если параллельные запуски)
           git fetch --tags --force
           if git rev-parse -q --verify "refs/tags/${GIT_TAG}" >/dev/null; then
             echo "ERROR: Git tag already exists: ${GIT_TAG}"
