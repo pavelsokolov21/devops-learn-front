@@ -116,6 +116,8 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
+          build-args: |
+            VITE_API_BASE_URL=/api
           push: true
           # ТЕПЕРЬ СОБИРАЕМ ПОД ОБЕ ПЛАТФОРМЫ
           platforms: linux/amd64,linux/arm64
