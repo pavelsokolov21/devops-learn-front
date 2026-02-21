@@ -172,6 +172,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
+          platforms: linux/amd64,linux/arm64
           tags: |
             smplay/my-vite-frontend:latest
             smplay/my-vite-frontend:${{ needs.version.outputs.version }}
